@@ -1,0 +1,126 @@
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ mongo
+MongoDB shell version v5.0.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("d7d61e00-5447-4a9c-8681-140eb642ddc1") }
+MongoDB server version: 5.0.1
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting: 
+        2022-04-05T08:51:45.074+05:30: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+        2022-04-05T08:51:46.983+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use madhuri
+switched to db madhuri
+> show dbs
+1nt19is182   0.000GB
+777          0.000GB
+B1           0.000GB
+admin        0.000GB
+college      0.000GB
+config       0.000GB
+local        0.000GB
+nmit         0.000GB
+priya407     0.000GB
+priyanka407  0.000GB
+test         0.000GB
+> db.employee.insertOne({name:"madhuri",age:20,salary:30000})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("624bbb89763f40ea271bc08e")
+}
+> db.employee.insertMany([{ name:"ram",age:30,salary=20000},{name:"rahim",age:25,salary:25000},{name:"sita",age:34,salary:40000}])
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:50
+> db.employee.insertMany([{ name:"ram",age:30,salary:20000},{name:"rahim",age:25,salary:25000},{name:"sita",age:34,salary:40000}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("624bbd3a763f40ea271bc08f"),
+		ObjectId("624bbd3a763f40ea271bc090"),
+		ObjectId("624bbd3a763f40ea271bc091")
+	]
+}
+> show dbs
+1nt19is182   0.000GB
+777          0.000GB
+B1           0.000GB
+admin        0.000GB
+college      0.000GB
+config       0.000GB
+local        0.000GB
+madhuri      0.000GB
+nmit         0.000GB
+priya407     0.000GB
+priyanka407  0.000GB
+test         0.000GB
+> db.collection.find()
+> db.employee.find()
+{ "_id" : ObjectId("624bbb89763f40ea271bc08e"), "name" : "madhuri", "age" : 20, "salary" : 30000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc08f"), "name" : "ram", "age" : 30, "salary" : 20000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc090"), "name" : "rahim", "age" : 25, "salary" : 25000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc091"), "name" : "sita", "age" : 34, "salary" : 40000 }
+> db.employee.find({name:"madhuri"})
+{ "_id" : ObjectId("624bbb89763f40ea271bc08e"), "name" : "madhuri", "age" : 20, "salary" : 30000 }
+> db.employee.insertMany([{ name:"joey",age:50,salary:70000},{name:"rachel",age:45,salary:75000},{name:"monica",age:30,salary:80000}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("624bbf32763f40ea271bc092"),
+		ObjectId("624bbf32763f40ea271bc093"),
+		ObjectId("624bbf32763f40ea271bc094")
+	]
+}
+> db.employee.find()
+{ "_id" : ObjectId("624bbb89763f40ea271bc08e"), "name" : "madhuri", "age" : 20, "salary" : 30000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc08f"), "name" : "ram", "age" : 30, "salary" : 20000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc090"), "name" : "rahim", "age" : 25, "salary" : 25000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc091"), "name" : "sita", "age" : 34, "salary" : 40000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc092"), "name" : "joey", "age" : 50, "salary" : 70000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc093"), "name" : "rachel", "age" : 45, "salary" : 75000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc094"), "name" : "monica", "age" : 30, "salary" : 80000 }
+> db.employee.updateOne({name:"ram"},{$set:{age:66}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.employee.updateMany({age:30},{$set:{age:33}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.employee.find()
+{ "_id" : ObjectId("624bbb89763f40ea271bc08e"), "name" : "madhuri", "age" : 20, "salary" : 30000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc08f"), "name" : "ram", "age" : 66, "salary" : 20000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc090"), "name" : "rahim", "age" : 25, "salary" : 25000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc091"), "name" : "sita", "age" : 34, "salary" : 40000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc092"), "name" : "joey", "age" : 50, "salary" : 70000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc093"), "name" : "rachel", "age" : 45, "salary" : 75000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc094"), "name" : "monica", "age" : 33, "salary" : 80000 }
+> db.employee.updateOne({name:"rahim"},{$set:{age:33}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.employee.updateMany({age:33},{$set:{age:30}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.employee.replaceOne({name:"rahim"},{name:"rakesh"})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.employee.find()
+{ "_id" : ObjectId("624bbb89763f40ea271bc08e"), "name" : "madhuri", "age" : 20, "salary" : 30000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc08f"), "name" : "ram", "age" : 66, "salary" : 20000 }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc090"), "name" : "rakesh" }
+{ "_id" : ObjectId("624bbd3a763f40ea271bc091"), "name" : "sita", "age" : 34, "salary" : 40000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc092"), "name" : "joey", "age" : 50, "salary" : 70000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc093"), "name" : "rachel", "age" : 45, "salary" : 75000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc094"), "name" : "monica", "age" : 30, "salary" : 80000 }
+
+
