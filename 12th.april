@@ -107,7 +107,10 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 { "_id" : ObjectId("6254fa22b23988f203ef47d5"), "name" : "anna", "age" : 22, "salary" : 40000 }
 { "_id" : ObjectId("6254fa22b23988f203ef47d6"), "name" : "jay", "age" : 56, "salary" : 30000 }
 { "_id" : ObjectId("6254fa22b23988f203ef47d7"), "age" : 34, "salary" : 33000 }
-> ^C
-bye
-hdoop@admin1-HP-280-G4-MT-Business-PC:~$ 
+db.employee.aggregate([{$group : {_id : "$salary", total : {$sum : 1}}}])
+{ "_id" : 40000, "total" : 1 }
+{ "_id" : 75000, "total" : 1 }
+{ "_id" : 30000, "total" : 2 }
+{ "_id" : 33000, "total" : 1 }
+
 
