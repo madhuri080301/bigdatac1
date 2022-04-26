@@ -1,0 +1,55 @@
+ db.employee.aggregate([{$match:{salary:75000}},{$group:{_id:"$salary",total:{$min:"$age"}}}])
+{ "_id" : 75000, "total" : 29 }
+> db.employee.aggregate([{$match:{salary:75000}},{$group:{_id:"$salary",total:{$max:"$age"}}}])
+{ "_id" : 75000, "total" : 45 }
+> db.employee.aggregate([{$match:{salary:30000}},{$group:{_id:"$age",total:{$sum:"$age"}}}])
+{ "_id" : 22, "total" : 22 }
+{ "_id" : 20, "total" : 20 }
+{ "_id" : 56, "total" : 112 }
+> db.employee.aggregate([{$match:{salary:30000}},{$group:{_id:"$age",total:{$avg:"$salary"}}}])
+{ "_id" : 22, "total" : 30000 }
+{ "_id" : 20, "total" : 30000 }
+{ "_id" : 56, "total" : 30000 }
+> db.employee.aggregate([{$match:{salary:30000}},{$group:{_id:"$age",total:{$first:"$salary"}}}])
+{ "_id" : 22, "total" : 30000 }
+{ "_id" : 20, "total" : 30000 }
+{ "_id" : 56, "total" : 30000 }
+> db.employee.aggregate([{$group:{_id:"$age",total:{$last:"$salary"}}}])
+{ "_id" : 45, "total" : 75000 }
+{ "_id" : 29, "total" : 75000 }
+{ "_id" : 22, "total" : 30000 }
+{ "_id" : 20, "total" : 30000 }
+{ "_id" : 56, "total" : 30000 }
+{ "_id" : 59, "total" : 40000 }
+> db.employee.aggregate([{$sort:{salary:-1}},{$group:{_id:"$salary",total:{$min:"$age"}}}])
+{ "_id" : 40000, "total" : 22 }
+{ "_id" : 75000, "total" : 29 }
+{ "_id" : 30000, "total" : 20 }
+> db.employee.aggregate([{$sort:{salary:-1}},{$group:{_id:"$salary",total:{$max:"$age"}}}])
+{ "_id" : 40000, "total" : 59 }
+{ "_id" : 75000, "total" : 45 }
+{ "_id" : 30000, "total" : 56 }
+> var mapfunction=function(){emit(this.age,this.salary)}
+> var reducefunction=function(key,values){return Array.sum(values)}
+> db.employee.mapReduce(mapfunction,reducefunction,{'out'='Result'})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:55
+> db.employee.mapReduce(mapfunction,reducefunction,{'out':'Result'})
+{ "result" : "Result", "ok" : 1 }
+> db.Result.find()
+{ "_id" : 45, "value" : 75000 }
+{ "_id" : 29, "value" : 75000 }
+{ "_id" : 22, "value" : 70000 }
+{ "_id" : 20, "value" : 30000 }
+{ "_id" : 56, "value" : 60000 }
+{ "_id" : 59, "value" : 40000 }
+> db.employee.find()
+{ "_id" : ObjectId("624bbb89763f40ea271bc08e"), "name" : "madhuri", "age" : 20, "salary" : 30000 }
+{ "_id" : ObjectId("624bbf32763f40ea271bc093"), "name" : "rachel", "age" : 45, "salary" : 75000 }
+{ "_id" : ObjectId("6254fa22b23988f203ef47d5"), "name" : "anna", "age" : 22, "salary" : 40000 }
+{ "_id" : ObjectId("6254fa22b23988f203ef47d6"), "name" : "jay", "age" : 56, "salary" : 30000 }
+{ "_id" : ObjectId("62676fc688114a9f09ff703a"), "name" : "ram", "age" : 22, "salary" : 30000 }
+{ "_id" : ObjectId("62676fc688114a9f09ff703b"), "name" : "sham", "age" : 29, "salary" : 75000 }
+{ "_id" : ObjectId("6267700b88114a9f09ff703c"), "name" : "joe", "age" : 59, "salary" : 40000 }
+{ "_id" : ObjectId("6267700b88114a9f09ff703d"), "name" : "harry", "age" : 56, "salary" : 30000 }
+
