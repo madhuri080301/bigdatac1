@@ -52,4 +52,18 @@ uncaught exception: SyntaxError: missing : after property id :
 { "_id" : ObjectId("62676fc688114a9f09ff703b"), "name" : "sham", "age" : 29, "salary" : 75000 }
 { "_id" : ObjectId("6267700b88114a9f09ff703c"), "name" : "joe", "age" : 59, "salary" : 40000 }
 { "_id" : ObjectId("6267700b88114a9f09ff703d"), "name" : "harry", "age" : 56, "salary" : 30000 }
+> var mapfunction=function(){emit(this.age,this.salary)}
+> var reducefunction=function(key,values){return Array.avg(values)}
+> db.employee.mapReduce(mapfunction,reducefunction,{'out':'avg'})
+{ "result" : "avg", "ok" : 1 }
+> db.employee.mapReduce(mapfunction,reducefunction,{'out':'average'})
+{ "result" : "average", "ok" : 1 }
+> db.average.find()
+{ "_id" : 20, "value" : 30000 }
+{ "_id" : 45, "value" : 75000 }
+{ "_id" : 29, "value" : 75000 }
+{ "_id" : 59, "value" : 40000 }
+{ "_id" : 22, "value" : 35000 }
+{ "_id" : 56, "value" : 30000 }
+
 
