@@ -1,0 +1,82 @@
+hadoop
+Usage: hadoop [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
+ or    hadoop [OPTIONS] CLASSNAME [CLASSNAME OPTIONS]
+  where CLASSNAME is a user-provided Java class
+
+  OPTIONS is none or any of:
+
+buildpaths                       attempt to add class files from build tree
+--config dir                     Hadoop config directory
+--debug                          turn on shell script debug mode
+--help                           usage information
+hostnames list[,of,host,names]   hosts to use in slave mode
+hosts filename                   list of hosts to use in slave mode
+loglevel level                   set the log4j level for this command
+workers                          turn on worker mode
+
+  SUBCOMMAND is one of:
+
+
+    Admin Commands:
+
+daemonlog     get/set the log level for each daemon
+
+    Client Commands:
+
+archive       create a Hadoop archive
+checknative   check native Hadoop and compression libraries availability
+classpath     prints the class path needed to get the Hadoop jar and the required libraries
+conftest      validate configuration XML files
+credential    interact with credential providers
+distch        distributed metadata changer
+distcp        copy file or directories recursively
+dtutil        operations related to delegation tokens
+envvars       display computed Hadoop environment variables
+fs            run a generic filesystem user client
+gridmix       submit a mix of synthetic job, modeling a profiled from production load
+jar <jar>     run a jar file. NOTE: please use "yarn jar" to launch YARN applications, not this command.
+jnipath       prints the java.library.path
+kdiag         Diagnose Kerberos Problems
+kerbname      show auth_to_local principal conversion
+key           manage keys via the KeyProvider
+rumenfolder   scale a rumen input trace
+rumentrace    convert logs into a rumen trace
+s3guard       manage metadata on S3
+trace         view and modify Hadoop tracing settings
+version       print the version
+
+    Daemon Commands:
+
+kms           run KMS, the Key Management Server
+
+SUBCOMMAND may print help when invoked w/o parameters or with -h.
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ start-all.sh
+WARNING: Attempting to start all Apache Hadoop daemons as hdoop in 10 seconds.
+WARNING: This is not a recommended production deployment configuration.
+WARNING: Use CTRL-C to abort.
+Starting namenodes on [localhost]
+localhost: namenode is running as process 13754.  Stop it first.
+Starting datanodes
+Starting secondary namenodes [admin1-HP-280-G4-MT-Business-PC]
+admin1-HP-280-G4-MT-Business-PC: secondarynamenode is running as process 14129.  Stop it first.
+Starting resourcemanager
+resourcemanager is running as process 14319.  Stop it first.
+Starting nodemanagers
+localhost: nodemanager is running as process 14470.  Stop it first.
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ jps
+14129 SecondaryNameNode
+14470 NodeManager
+16024 Jps
+13754 NameNode
+14319 ResourceManager
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ hadoop fs -mkdir /madhuri
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ hadoop fs -ls /
+Found 2 items
+drwxr-xr-x   - hdoop supergroup          0 2022-05-24 09:35 /madhuri
+drwxr-xr-x   - hdoop supergroup          0 2022-05-24 09:30 /user
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ hdfs dfs -touchz /madhuri/file1.txt
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ hdfs dfs -touchz /madhuri/file2.txt
+hdoop@admin1-HP-280-G4-MT-Business-PC:~$ hadoop fs -ls /madhuri
+Found 2 items
+-rw-r--r--   1 hdoop supergroup          0 2022-05-24 09:37 /madhuri/file1.txt
+-rw-r--r--   1 hdoop supergroup          0 2022-05-24 09:39 /madhuri/file2.txt
